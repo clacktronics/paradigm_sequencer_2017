@@ -14,10 +14,16 @@ try:
 
     GPIO.setwarnings(False)
 
+    LED = 26
+
+    GPIO.setup(LED, GPIO.OUT)
+    GPIO.output(LED, 1)
+
     PLAY = 17
     PAUSE = 27
     STOP = 22
     RESET = 5
+
 
     GPIO.setup(PLAY, GPIO.IN)
     GPIO.setup(PAUSE, GPIO.IN)
@@ -34,6 +40,7 @@ try:
                 wait = False
 
         while not wait:
+
             if GPIO.input(PAUSE) == False:
                 video.pause()
                 wait = True
@@ -41,11 +48,14 @@ try:
             if GPIO.input(STOP) == False:
                 video.set_position(0)
                 video.pause()
+                GPIO.output(LED, 1)
                 wait = True
 
             if GPIO.input(RESET) == False:
+                GPIO.output(LED, 0)
 	        video.quit()
                 video = omx(vid, args = omxargs, pause=True)
+                GPIO.output(LED, 1)
                 wait = True
 
 except KeyboardInterrupt:
