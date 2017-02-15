@@ -32,6 +32,8 @@ try:
 
     wait = True
 
+    video_length = video.duration()
+
     while True:
         while wait:
 
@@ -54,6 +56,13 @@ try:
             if GPIO.input(RESET) == False:
                 GPIO.output(LED, 0)
 	        video.quit()
+                video = omx(vid, args = omxargs, pause=True)
+                GPIO.output(LED, 1)
+                wait = True
+
+            if video.position() > video_length - 5:
+                GPIO.output(LED, 0)
+                video.quit()
                 video = omx(vid, args = omxargs, pause=True)
                 GPIO.output(LED, 1)
                 wait = True
