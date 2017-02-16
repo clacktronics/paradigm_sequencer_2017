@@ -34,6 +34,8 @@ try:
 
     video_length = video.duration()
 
+    video.set_position(0)
+
     while True:
         while wait:
 
@@ -50,6 +52,8 @@ try:
             if GPIO.input(STOP) == False:
                 video.set_position(0)
                 video.pause()
+                GPIO.output(LED, 0)
+                sleep(.5)
                 GPIO.output(LED, 1)
                 wait = True
 
@@ -61,11 +65,13 @@ try:
                 wait = True
 
             if video.position() > video_length - 5:
+                video.set_position(0)
+                video.pause()
                 GPIO.output(LED, 0)
-                video.quit()
-                video = omx(vid, args = omxargs, pause=True)
+                sleep(.5)
                 GPIO.output(LED, 1)
                 wait = True
+
 
 except KeyboardInterrupt:
     video.stop()
