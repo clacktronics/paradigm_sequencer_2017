@@ -87,6 +87,8 @@ void nextsequence()
 {
       
       step_now++;
+      Serial.print("Sequence ");
+      Serial.println(step_now);
       if(step_now >= NUMSEQUENCES) {step_now=0;} 
       count = sequence[step_now][0];
       step_end = sequence[step_now][1]; // where to end
@@ -103,6 +105,7 @@ void stepTrigger()
     if(loops >= sequence[step_now][2]){nextsequence();}
     count = sequence[step_now][0]; 
     debounce_trig = millis();
+    Serial.println(loops);
     }
 }
 
